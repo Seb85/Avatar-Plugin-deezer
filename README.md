@@ -11,6 +11,7 @@ Copiez le répertoire blague dans le répertoire Avatar-Serveur/plugins
 Des exemples :
 
 Cherche sur deezer Armin Van Buuren
+
 Deezer trois cafés gourmands
 
 Version 1.0
