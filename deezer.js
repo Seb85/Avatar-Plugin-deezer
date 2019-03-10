@@ -22,23 +22,9 @@ exports.action = function(data, callback){
   
 }
 
-exports.mute = function (client, clientFrom, clientTo) {
-    //clientFrom: Le client qui a passé la règle
-    //clientTo: Le client courant (clientFrom ou client mappé (avec Avatar.currentRoom))
-
-    //Ajout ici d'une action pour couper le son
-    client = Avatar.transfertClient(client);
-    if (Avatar.exists('jarvis') && !Avatar.isMobile(client)&& client == 'Séjour')
-		Avatar.call('jarvis', {action : {command: 'killdeezer'}, client: client});
-	if (Avatar.exists('jarvis') && !Avatar.isMobile(client)&& client == 'Chambre')
-		Avatar.call('jarvis', {action : {command: 'killdeezer'}, client: client});
-
-}
-
 function deezerfunction(client, sentence, deezer) {
 	
 	if (deezer) {
-		Avatar.runApp("C:\\Avatar\\Client\\app\\jarvis\\deezerstart.bat", client);
 		info(sentence)
 		var urldeezer='https://api.deezer.com/search/?q='+sentence
 		request({ url : urldeezer }, function (err, response, body){
