@@ -2,7 +2,7 @@
 	"modules" : { 
 		"deezer"  : {
 			"description": "Lance deezer",
-			"exemple": "Lance deezer avec Armin",
+			"exemple": "Cherche sur deezer Armin Van Buuren",
 			"active" : true,
 			"sentence_lenght" : 300,
 			"rules" : {
