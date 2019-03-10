@@ -1,0 +1,26 @@
+{
+	"modules" : { 
+		"deezer"  : {
+			"description": "Lance deezer",
+			"exemple": "Lance deezer avec Armin",
+			"active" : true,
+			"sentence_lenght" : 300,
+			"rules" : {
+				"deezer" : ["deezer"]
+			},
+			"next_askme" : "je continue ?|encore ?|plusse ?",
+			"next_answer" : {  
+				"oui s'il te plait" : "yes",
+				"s'il te plait" : "yes",
+				"sauvegarde le" : "save",
+				"répete" : "again",
+				"encore" : "again",
+				"vas-y" : "yes",
+				"oui vas-y" : "yes",
+				"non c'est bon" : "stop",
+				"non merci" : "stop",
+				"merci" : "stop"
+			}
+		}
+	}
+}
