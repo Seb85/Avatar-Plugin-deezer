@@ -195,28 +195,7 @@ function deezer(client) {
 					info(answer)
 					if(answer = 'Seb'){
 					Avatar.speak("C'est parti.", client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3165196562'
-					Avatar.runApp(urldeezer, client);
-					Avatar.Speech.end(client);
-					end(client, true);
-					}
-					if(answer = 'marie'){
-					Avatar.speak("C'est parti.", client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3602432802'
-					Avatar.runApp(urldeezer, client);
-					Avatar.Speech.end(client);
-					end(client, true);
-					}
-					if(answer = 'soiree'){
-					Avatar.speak("C'est parti.", client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=4368032762'
-					Avatar.runApp(urldeezer, client);
-					Avatar.Speech.end(client);
-					end(client, true);
-					}
-					if(answer = 'sport'){
-					Avatar.speak("C'est parti.", client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3628105122'
+					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3165296562'
 					Avatar.runApp(urldeezer, client);
 					Avatar.Speech.end(client);
 					end(client, true);
