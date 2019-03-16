@@ -1,12 +1,10 @@
 {
 	"modules" : { 
 		"deezer"  : {
-			"description": "Lance deezer",
-			"exemple": "Cherche sur deezer Armin Van Buuren",
-			"active" : true,
-			"sentence_lenght" : 300,
+			"description": "Deezer",
+			"version": "1.0",
 			"rules" : {
-				"deezer" : ["deezer"]
+				"deezer" : ["deezer","start * music","put * music"]
 			}
 		}
 	}
