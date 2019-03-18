@@ -50,7 +50,7 @@ function deezer(data, client, clientFrom, clientTo) {
 		switch (answer) {
 		
 			case "artiste" :
-				
+				end(data.client, true);
 				Avatar.askme("Quel artiste souhaitez vous ?", data.client,
 				{
 					"*": ""
@@ -97,6 +97,7 @@ function deezer(data, client, clientFrom, clientTo) {
 				break;
 
 			case "album" :
+				end(data.client, true);
 				Avatar.askme("Quel album souhaitez vous ?", data.client,
 				{
 					"*": ""
@@ -143,6 +144,7 @@ function deezer(data, client, clientFrom, clientTo) {
 				break;
 				
 			case "titre" :
+				end(data.client, true);
 				Avatar.askme("Quel titre souhaitez vous ?", data.client,
 				{
 					"*" : ""
@@ -189,36 +191,16 @@ function deezer(data, client, clientFrom, clientTo) {
 				break;
 			
 			case "playlist" :
+				end(data.client, true);
 				Avatar.askme("Vous avez le choix entre ces playlist. Seb, Marie, Soirée, Sport", data.client,
 				{
-					"Seb" : "seb",
-					"Marie" : "marie",
-					"Soirée" : "soiree",
-					"Sport" : "sport"
+					"Seb" : "seb"
 				},0, function (answer, end) {
 					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
 					info(answer)
 					if(answer = 'Seb'){
 					Avatar.speak("C'est parti.", data.client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3165196562'
-					Avatar.runApp(urldeezer, clientTo);
-					end(data.client, true);
-					}
-					if(answer = 'marie'){
-					Avatar.speak("C'est parti.", data.client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3602432802'
-					Avatar.runApp(urldeezer, clientTo);
-					end(data.client, true);
-					}
-					if(answer = 'soiree'){
-					Avatar.speak("C'est parti.", data.client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=4368032762'
-					Avatar.runApp(urldeezer, clientTo);
-					end(data.client, true);
-					}
-					if(answer = 'sport'){
-					Avatar.speak("C'est parti.", data.client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3628105122'
+					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3155196562'
 					Avatar.runApp(urldeezer, clientTo);
 					end(data.client, true);
 					}
