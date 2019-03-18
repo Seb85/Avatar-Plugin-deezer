@@ -4,15 +4,19 @@ var request = require('request');
 require('colors');
 
 exports.action = function(data, callback){
-	
+
 	var tblCommand = {
-		deezer: function() {deezer(data.client);}
+		deezer: function() {deezer(data, client)}
 	};
-	
-	info("Deezer command:", data.action.command.yellow, "From:", data.client.yellow);
+
+  let client = setClient(data);
+
+	// Info console
+	info("Deezer:", data.action.command, "From:", data.client, "To:", client);
+  // action
 	tblCommand[data.action.command]();
-	
 	callback();
+
 }
 
 exports.mute = function (clientFrom, clientTo) {
@@ -22,29 +26,36 @@ exports.mute = function (clientFrom, clientTo) {
     if (Avatar.isMobile(clientFrom)) {
       return;
     }
-	//Avatar.runApp('%CD%/nircmd/nircmdc64', 'killprocess firefox.exe', Avatar.currentRoom);
-	//Avatar.runApp('%CD%/nircmd/nircmd', 'changesysvolume 33000', Avatar.currentRoom);
+	if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom) && clientTo == 'Séjour')
+		Avatar.runApp('%CD%/nircmd/nircmdc64', 'killprocess firefox.exe', clientTo);
+    if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom)&& clientTo == 'Séjour')
+		Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume 33000', clientTo);
+	if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom) && clientTo == 'Chambre')
+		Avatar.runApp('%CD%/nircmd/nircmdc64', 'killprocess firefox.exe', clientTo);
+    if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom)&& clientTo == 'Chambre')
+		Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume 33000', clientTo);
 }
 
-function deezer(client) {
+function deezer(data, client, clientFrom, clientTo) {
 	
-    Avatar.askme("Tu veux rechercher un artiste, un album, un titre, une playlist ou bien le flo ?", client,
+    Avatar.askme("Tu veux rechercher un artiste, un album, un titre, une playlist ou bien le flo ?", data.client,
 	{
 		"Un artiste" : "artiste",
 		"Un album" : "album",
 		"Un titre" : "titre",
 		"Une playlist" : "playlist",
-		"Le flow" : "flow"
+		"Le flow" : "flow",
+		"terminer": "done"
 	},0, function (answer, end) {
 		switch (answer) {
 		
 			case "artiste" :
-				end (client);
-				Avatar.askme("Quel artiste souhaitez vous ?", client,
+				
+				Avatar.askme("Quel artiste souhaitez vous ?", data.client,
 				{
 					"*": ""
 				},0, function (answer, end) {
-					Avatar.runApp('%CD%/nircmd/nircmd', 'changesysvolume -33000', client)
+					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
 					answer = answer.replace('l\'','');
 					answer = answer.replace('é','e');
 					answer = answer.replace('è','e');
@@ -70,7 +81,7 @@ function deezer(client) {
 
 					var r='0'
 					if(listedeezer.indexOf(objet.data[r]['album']['id'])<0){
-					Avatar.speak("C'est parti.", client)
+					Avatar.speak("C'est parti.", data.client)
 					listedeezer.push(objet.data[r]['album']['id'])
 					}
 					var maxdeezer=listedeezer.length;var mindezzer=0
@@ -78,21 +89,19 @@ function deezer(client) {
 					var numerodeezer=listedeezer[rnddeezer]
 					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=album&id='+numerodeezer
 		
-					Avatar.runApp(urldeezer, client);
-					Avatar.Speech.end(client);
-					end(client, true);
+					Avatar.runApp(urldeezer, clientTo);
+					end(data.client, true);
 
 					})
 				});
 				break;
 
 			case "album" :
-				end (client);
-				Avatar.askme("Quel album souhaitez vous ?", client,
+				Avatar.askme("Quel album souhaitez vous ?", data.client,
 				{
 					"*": ""
 				},0, function (answer, end) {
-					Avatar.runApp('%CD%/nircmd/nircmd', 'changesysvolume -33000', client)
+					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
 					answer = answer.replace('l\'','');
 					answer = answer.replace('é','e');
 					answer = answer.replace('è','e');
@@ -118,7 +127,7 @@ function deezer(client) {
 
 					var r='0'
 					if(listedeezer.indexOf(objet.data[r]['album']['id'])<0){
-					Avatar.speak("C'est parti.", client)
+					Avatar.speak("C'est parti.", data.client)
 					listedeezer.push(objet.data[r]['album']['id'])
 					}					
 					var maxdeezer=listedeezer.length;var mindezzer=0
@@ -126,21 +135,19 @@ function deezer(client) {
 					var numerodeezer=listedeezer[rnddeezer]
 					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=album&id='+numerodeezer
 		
-					Avatar.runApp(urldeezer, client);
-					Avatar.Speech.end(client);
-					end(client, true);
+					Avatar.runApp(urldeezer, clientTo);
+					end(data.client, true);
 
 					})
 				});
 				break;
 				
 			case "titre" :
-				end (client);
-				Avatar.askme("Quel titre souhaitez vous ?", client,
+				Avatar.askme("Quel titre souhaitez vous ?", data.client,
 				{
 					"*" : ""
 				},0, function (answer, end) {
-					Avatar.runApp('%CD%/nircmd/nircmd', 'changesysvolume -33000', client)
+					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
 					answer = answer.replace('l\'','');
 					answer = answer.replace('é','e');
 					answer = answer.replace('è','e');
@@ -166,7 +173,7 @@ function deezer(client) {
 
 					var r='0'
 					if(listedeezer.indexOf(objet.data[r]['id'])<0){
-					Avatar.speak("C'est parti.", client)
+					Avatar.speak("C'est parti.", data.client)
 					listedeezer.push(objet.data[r]['id'])
 					}
 					var maxdeezer=listedeezer.length;var mindezzer=0
@@ -174,47 +181,76 @@ function deezer(client) {
 					var numerodeezer=listedeezer[rnddeezer]
 					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=tracks&id='+numerodeezer
 		
-					Avatar.runApp(urldeezer, client);
-					Avatar.Speech.end(client);
-					end(client, true);
+					Avatar.runApp(urldeezer, clientTo);
+					end(data.client, true);
 
 					})
 				});
 				break;
 			
 			case "playlist" :
-				end (client);
-				Avatar.askme("Vous avez le choix entre ces playlist. Seb, Marie, Soirée, Sport", client,
+				Avatar.askme("Vous avez le choix entre ces playlist. Seb, Marie, Soirée, Sport", data.client,
 				{
 					"Seb" : "seb",
 					"Marie" : "marie",
 					"Soirée" : "soiree",
 					"Sport" : "sport"
 				},0, function (answer, end) {
-					Avatar.runApp('%CD%/nircmd/nircmd', 'changesysvolume -33000', client)
+					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
 					info(answer)
 					if(answer = 'Seb'){
-					Avatar.speak("C'est parti.", client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3165296562'
-					Avatar.runApp(urldeezer, client);
-					Avatar.Speech.end(client);
-					end(client, true);
+					Avatar.speak("C'est parti.", data.client)
+					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3165196562'
+					Avatar.runApp(urldeezer, clientTo);
+					end(data.client, true);
+					}
+					if(answer = 'marie'){
+					Avatar.speak("C'est parti.", data.client)
+					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3602432802'
+					Avatar.runApp(urldeezer, clientTo);
+					end(data.client, true);
+					}
+					if(answer = 'soiree'){
+					Avatar.speak("C'est parti.", data.client)
+					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=4368032762'
+					Avatar.runApp(urldeezer, clientTo);
+					end(data.client, true);
+					}
+					if(answer = 'sport'){
+					Avatar.speak("C'est parti.", data.client)
+					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3628105122'
+					Avatar.runApp(urldeezer, clientTo);
+					end(data.client, true);
 					}
 				});
 				break;
 				
 			case "flow" :
-			    Avatar.speak("C'est parti.", client)
-				Avatar.runApp('%CD%/nircmd/nircmd', 'changesysvolume -33000', client)
-				end (client);
+			    Avatar.speak("C'est parti.", data.client)
+				Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
 				var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=artist&id=47'
-				Avatar.runApp(urldeezer, client);
-				Avatar.Speech.end(client);
-				end(client, true);
+				Avatar.runApp(urldeezer, clientTo);
+				end(data.client, true);
 				break;
 				
-			default:
-			break;	
+            case "done":
+            default:
+            Avatar.speak("Terminé", data.client, function(){
+                end(data.client, true);
+            });
 		}
 	});
+}
+
+function setClient (data) {
+
+	var client = data.client;
+
+	if (data.action.room)
+		client = (data.action.room != 'current') ? data.action.room : (Avatar.currentRoom) ? Avatar.currentRoom : Config.default.client;
+
+	if (data.action.setRoom)
+		client = data.action.setRoom;
+
+	return client;
 }
