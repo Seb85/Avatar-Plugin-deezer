@@ -29,11 +29,11 @@ exports.mute = function (clientFrom, clientTo) {
 	if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom) && clientTo == 'Séjour')
 		Avatar.runApp('%CD%/nircmd/nircmdc64', 'killprocess firefox.exe', clientTo);
     if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom)&& clientTo == 'Séjour')
-		Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume 33000', clientTo);
+		Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume 100000', clientTo);
 	if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom) && clientTo == 'Chambre')
 		Avatar.runApp('%CD%/nircmd/nircmdc64', 'killprocess firefox.exe', clientTo);
     if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom)&& clientTo == 'Chambre')
-		Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume 33000', clientTo);
+		Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume 100000', clientTo);
 }
 
 function deezer(data, client, clientFrom, clientTo) {
