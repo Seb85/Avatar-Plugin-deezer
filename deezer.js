@@ -32,30 +32,70 @@ exports.mute = function (clientFrom, clientTo) {
 		Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume 100000', clientTo);
 	if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom) && clientTo == 'Chambre')
 		Avatar.runApp('%CD%/nircmd/nircmdc64', 'killprocess firefox.exe', clientTo);
-    if (Avatar.exists('deezer') && !Avatar.isMobile(clientFrom)&& clientTo == 'Chambre')
-		Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume 100000', clientTo);
 }
 
 function deezer(data, client, clientFrom, clientTo) {
 	
     Avatar.askme("Tu veux rechercher un artiste, un album, un titre, une playlist ou bien le flo ?", data.client,
 	{
-		"Un artiste" : "artiste",
-		"Un album" : "album",
-		"Un titre" : "titre",
-		"Une playlist" : "playlist",
-		"Le flow" : "flow",
-		"terminer": "done"
+		"*": "generic",
+        "terminer": "done"
 	},0, function (answer, end) {
-		switch (answer) {
-		
-			case "artiste" :
+
+          if (answer && answer.indexOf('generic') != -1) {
+              end(data.client);
+              answer = answer.split(':')[1];
+
+              if (answer.indexOf('artiste') != -1) {
+                return deezerartiste(data, client);
+              }
+
+              if (answer.indexOf('album') != -1) {
+                return deezeralbum(data, client);
+              }
+
+              if (answer.indexOf('titre') != -1) {
+                return deezertitre(data, client);
+              }
+			  
+			  if (answer.indexOf('playlist') != -1) {
+                return deezerplaylist(data, client);
+              }
+			  
+			  if (answer.indexOf('flow') != -1) {
+				Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo);
+				var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=artist&id=47';
+				Avatar.runApp(urldeezer, clientTo);
+				Avatar.speak("C'est parti.", data.client);
 				end(data.client, true);
+				return;
+              }
+
+              return Avatar.speak("Je suis désolé, je n'ai pas compris.", data.client, function(){
+                  deezer(data, client)
+              });
+          }
+
+          // Grammaire fixe
+          switch(answer) {
+            case "done":
+            default:
+                Avatar.speak("Terminé", data.client, function(){
+                    end(data.client, true);
+                });
+         }
+      })		
+}			
+
+function deezerartiste(data, client, clientFrom, clientTo) {
 				Avatar.askme("Quel artiste souhaitez vous ?", data.client,
 				{
-					"*": ""
+					"*": "generic",
+                    "terminer": "done"
 				},0, function (answer, end) {
+					if (answer && answer.indexOf('generic') != -1) {
 					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
+					answer = answer.split(':')[1];
 					answer = answer.replace('l\'','');
 					answer = answer.replace('é','e');
 					answer = answer.replace('è','e');
@@ -93,16 +133,28 @@ function deezer(data, client, clientFrom, clientTo) {
 					end(data.client, true);
 
 					})
-				});
-				break;
+					}
+					
+					// Grammaire fixe
+					switch(answer) {
+					case "done":
+					default:
+						Avatar.speak("Terminé", data.client, function(){
+							end(data.client, true);
+					});
+			}
+	})
+}
 
-			case "album" :
-				end(data.client, true);
+function deezeralbum(data, client, clientFrom, clientTo) {
 				Avatar.askme("Quel album souhaitez vous ?", data.client,
 				{
-					"*": ""
+					"*": "generic",
+                    "terminer": "done"
 				},0, function (answer, end) {
+					if (answer && answer.indexOf('generic') != -1) {
 					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
+					answer = answer.split(':')[1];
 					answer = answer.replace('l\'','');
 					answer = answer.replace('é','e');
 					answer = answer.replace('è','e');
@@ -130,7 +182,7 @@ function deezer(data, client, clientFrom, clientTo) {
 					if(listedeezer.indexOf(objet.data[r]['album']['id'])<0){
 					Avatar.speak("C'est parti.", data.client)
 					listedeezer.push(objet.data[r]['album']['id'])
-					}					
+					}
 					var maxdeezer=listedeezer.length;var mindezzer=0
 					var rnddeezer= Math.floor(Math.random() * (maxdeezer - mindezzer) + mindezzer)
 					var numerodeezer=listedeezer[rnddeezer]
@@ -140,16 +192,28 @@ function deezer(data, client, clientFrom, clientTo) {
 					end(data.client, true);
 
 					})
-				});
-				break;
-				
-			case "titre" :
-				end(data.client, true);
+					}
+					
+					// Grammaire fixe
+					switch(answer) {
+					case "done":
+					default:
+						Avatar.speak("Terminé", data.client, function(){
+							end(data.client, true);
+					});
+			}
+	})
+}
+
+function deezertitre(data, client, clientFrom, clientTo) {
 				Avatar.askme("Quel titre souhaitez vous ?", data.client,
 				{
-					"*" : ""
+					"*": "generic",
+                    "terminer": "done"
 				},0, function (answer, end) {
+					if (answer && answer.indexOf('generic') != -1) {
 					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
+					answer = answer.split(':')[1];
 					answer = answer.replace('l\'','');
 					answer = answer.replace('é','e');
 					answer = answer.replace('è','e');
@@ -187,41 +251,80 @@ function deezer(data, client, clientFrom, clientTo) {
 					end(data.client, true);
 
 					})
-				});
-				break;
-			
-			case "playlist" :
-				end(data.client, true);
-				Avatar.askme("Vous avez le choix entre ces playlist. Seb, Marie, Soirée, Sport", data.client,
-				{
-					"Seb" : "seb"
-				},0, function (answer, end) {
-					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
-					info(answer)
-					if(answer = 'Seb'){
-					Avatar.speak("C'est parti.", data.client)
-					var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3155196562'
-					Avatar.runApp(urldeezer, clientTo);
-					end(data.client, true);
 					}
-				});
-				break;
-				
-			case "flow" :
-			    Avatar.speak("C'est parti.", data.client)
-				Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo)
-				var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=artist&id=47'
-				Avatar.runApp(urldeezer, clientTo);
-				end(data.client, true);
-				break;
-				
-            case "done":
-            default:
-            Avatar.speak("Terminé", data.client, function(){
-                end(data.client, true);
-            });
-		}
-	});
+					
+					// Grammaire fixe
+					switch(answer) {
+					case "done":
+					default:
+						Avatar.speak("Terminé", data.client, function(){
+							end(data.client, true);
+					});
+			}
+	})
+}
+
+function deezerplaylist(data, client, clientFrom, clientTo) {
+				Avatar.askme("Vous avez le choix entre ces playlist. Seb, Marie, Soirée, Sport ?", data.client,
+				{
+					"*": "generic",
+                    "terminer": "done"
+				},0, function (answer, end) {
+					if (answer && answer.indexOf('generic') != -1) {
+					Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo);
+					end(data.client);
+					answer = answer.split(':')[1];
+
+					if (answer.indexOf('seb') != -1) {
+						end(data.client);
+						var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3165196562';
+						Avatar.runApp(urldeezer, clientTo);
+						Avatar.speak("C'est parti.", data.client);
+						end(data.client, true);
+						return;
+					}
+
+					if (answer.indexOf('marie') != -1) {
+						end(data.client);
+						var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3602432802';
+						Avatar.runApp(urldeezer, clientTo);
+						Avatar.speak("C'est parti.", data.client);
+						end(data.client, true);
+						return;
+					}
+
+					if (answer.indexOf('soirée') != -1) {
+						end(data.client);
+						var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=4368032762';
+						Avatar.runApp(urldeezer, clientTo);
+						Avatar.speak("C'est parti.", data.client);
+						end(data.client, true);
+						return;
+					}
+			  
+					if (answer.indexOf('sport') != -1) {
+						end(data.client);
+						var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=playlist&id=3628105122';
+						Avatar.runApp(urldeezer, clientTo);
+						Avatar.speak("C'est parti.", data.client);
+						end(data.client, true);
+						return;
+					}
+
+					return Avatar.speak("Je suis désolé, je n'ai pas compris.", data.client, function(){
+						deezerplaylist(data, client)
+					});
+				}
+
+				// Grammaire fixe
+				switch(answer) {
+					case "done":
+					default:
+						Avatar.speak("Terminé", data.client, function(){
+							end(data.client, true);
+						});
+				}
+		})
 }
 
 function setClient (data) {
