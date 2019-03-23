@@ -69,8 +69,7 @@ function deezer(data, client, clientFrom, clientTo) {
 				Avatar.runApp('%CD%/nircmd/nircmdc64', 'changesysvolume -33000', clientTo, function () {
                 });
 				var urldeezer='https://www.deezer.com/plugins/player?format=classic&autoplay=true&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=artist&id=47';
-				Avatar.runApp(urldeezer, clientTo, function () {
-                });
+				Avatar.runApp(urldeezer, clientTo);
 				Avatar.speak("C'est parti.", data.client, function () {
                 });
 				end(data.client, true);
