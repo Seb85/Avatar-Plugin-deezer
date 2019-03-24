@@ -15,6 +15,8 @@ exports.default = function (state) {
 			  if (match) break;
 		}
 		
+		var room = Avatar.ia.clientFromRule (state.rawSentence);
+		
 		 setTimeout(function(){ 			
 			if (match) {
 				
@@ -25,7 +27,8 @@ exports.default = function (state) {
 					state.action = {
 						module: 'deezer',
 						command: rule,
-						value: value	
+						value: value,
+						room: room		
 					};	
 			}		
 				
