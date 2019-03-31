@@ -1,6 +1,6 @@
 # Avatar-Plugin-deezer
 
-Ce plugin est un add-on pour le framework Avatar
+Ce plugin est un add-on pour le framework Avatar: https://github.com/Spikharpax/A.V.A.T.A.R
 
 Recherche sur deezer suivant Artiste/Album/Titre/Playlist/Flow
 
