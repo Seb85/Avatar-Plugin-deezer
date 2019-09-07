@@ -306,15 +306,14 @@ function deezerplaylist(data, client) {
 		})
 }
 
-function setClient (data) {
+var setClient = function (data) {
 
-	var client = data.client;
-
-	if (data.action.room)
+	// client direct (la commande provient du client et est exécutée sur le client)
+	var client = data.client;	
+	// Client spécifique fixe (la commande ne provient pas du client et n'est pas exécutée sur le client et ne peut pas changer)
+	if (data.action.room && data.action.room != 'current' && !Avatar.isMobile(data.client)) 
 		client = (data.action.room != 'current') ? data.action.room : (Avatar.currentRoom) ? Avatar.currentRoom : Config.default.client;
-
-	if (data.action.setRoom)
-		client = data.action.setRoom;
-
+	if (Avatar.isMobile(data.client))
+			client = Avatar.currentRoom ? Avatar.currentRoom : Config.default.client;
 	return client;
 }
